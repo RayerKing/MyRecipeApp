@@ -4,6 +4,7 @@ import Home from "../components/views/Home";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 import PropTypes from 'prop-types';
+import Profile from "../components/views/Profile";
 
 // 🟩 Router pro cesty
 export default function AppRouter(props) {
@@ -15,11 +16,13 @@ export default function AppRouter(props) {
         element={
           <Login
             setCurrentUser={props.setCurrentUser}
-            currentUser={props.currentUser}
+      currentUser={props.currentUser}
           />
         }
       />
       <Route path="/register" element={<Register />} />
+      <Route path="/profile" element={<Profile setCurrentUser={props.setCurrentUser}
+            currentUser={props.currentUser} />}/>
     </Routes>
   );
 }

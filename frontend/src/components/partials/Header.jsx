@@ -99,11 +99,11 @@ function Header(props) {
 
               {props.currentUser && (
                 <li className="nav-item">
-                  { /* ❗TODO doplnit cestu ❗ */}
+                  
                   <Link
-                    to=""
+                    to="/profile"
                     className={
-                      location.pathname === ""
+                      location.pathname === "/profile"
                         ? "nav-link text-secondary text-decoration-underline"
                         : "nav-link text-secondary"
                     }

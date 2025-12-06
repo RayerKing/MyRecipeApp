@@ -74,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION["id"] = $user["id"];
         $_SESSION["email"] = $user["email"];
         $_SESSION["isActive"] = $user["is_activated_email"];
+        $_SESSION["createdAt"] = $user["created_at"];
 
         $userData = array(
             "id" => $user["id"],
@@ -83,6 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "role" => $user["role"],
             "email" => $user["email"],
             "isActive" => $user["is_activated_email"],
+            "created" => $user["created_at"],
             
             
         );

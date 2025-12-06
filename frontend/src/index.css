@@ -17,3 +17,7 @@ footer {
     font-size: 4rem;
     color: #343a40;
 }
+
+.table_profile_info {
+  max-width: 400px;
+}
