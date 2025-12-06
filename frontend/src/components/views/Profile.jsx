@@ -1,0 +1,1 @@
+// 🟩 Komponenta pro zobrazení profilu
