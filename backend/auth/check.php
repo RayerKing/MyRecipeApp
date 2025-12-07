@@ -1,6 +1,6 @@
 <?php
 
-// nahrání z reactu
+// 🟩 Kontrola při reloadu, zda je uživatel přihlášen
 
 include "../config/database.php";
 
@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// povolení localhostu pro komunikaci
+// 🟩 povolení localhostu pro komunikaci
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Content-Type");

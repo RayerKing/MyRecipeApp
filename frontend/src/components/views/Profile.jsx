@@ -55,10 +55,15 @@ function Profile(props) {
           </ul>
         </div>
 
-        {/* 🟩 Pravá část */ }
+        {/* 🟩 Pravá část */}
         <div className="col-12 col-md-9 col-lg-10 mt-3 mt-md-0">
           {activeSection === "recept" && <MyRecept />}
-          {activeSection === "option" && <Option />}
+          {activeSection === "option" && (
+            <Option
+              currentUser={props.currentUser}
+              setCurrentUser={props.setCurrentUser}
+            />
+          )}
           {activeSection === "profile" && (
             <Profile_Info
               currentUser={props.currentUser}
