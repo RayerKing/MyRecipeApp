@@ -1,145 +1,89 @@
-# 🍲 MyRecipeApp  
-Fullstack webová aplikace pro správu receptů, postavená na **React (Vite) + PHP + MySQL**.
-Na projektu stále **pracuji**. 
+# 🍽️ MyRecipeApp
+### Full-stack Recipe Platform built with **React**, **PHP** and **MySQL**
 
-Aplikace umožňuje registraci, přihlášení uživatele, práci se sessions na backendu, podmíněné zobrazení částí UI a bezpečné odhlašování.  
-Projekt je navržen pro lokální běh pomocí **Vite dev serveru** (frontend) a **XAMPP** (backend + MySQL).
-
----
-
-## 💎 Co lze vyzkoušet
-- Registrovat se
-- Přihlásit se
-- Odhlásit se
+MyRecipeApp je moderní webová aplikace pro správu receptů.  
+Umožňuje registraci uživatelů, přihlášení, správu profilu a kompletní CRUD operace nad recepty.
 
 ---
 
-## ✨ Funkcionality
+## ✨ Features
 
-### 🔐 Autentizace
-- Registrace uživatele (PHP + MySQL)
-- Přihlášení pomocí PHP session (bez JWT)
-- Ověření přihlášeného uživatele (`check.php`)
-- Odhlášení se zrušením session a session cookie
-- Podmíněné vykreslování v Reactu podle `currentUser`
+### 🔐 Authentication
+- 👤 Registrace nového uživatele  
+- 🔑 Přihlášení pomocí nickname + hesla  
+- 🛡️ Bezpečné ukládání hesel (`password_hash`)  
+- 🔄 Session mezi Reactem a PHP  
 
-### 🧭 Navigace
-- Dynamický Header reagující na stav přihlášení
-- Přesměrování po přihlášení/odhlášení
-- React Router
+### 👥 User Profile
+- ✉️ Změna emailu  
+- 📝 Změna nickname  
+- 🔒 Změna hesla  
+- 📚 Možnost smazání účtu
 
-### 💡 Frontend
-- React + Vite
-- Bootstrap 5 komponenty
-- FontAwesome ikony
-- Čistě oddělená struktura komponent
-- Fetch API komunikace s PHP backendem
+### 🎨 Frontend (React)
+- ⚛️ React 18  
+- 🧭 React Router  
+- 🎛️ Bootstrap 5  
+- 🧩 Komponentová architektura  
+- 🔧 Správa stavu přihlášeného uživatele  
 
-### 🛠 Backend
-- PHP 8
-- MySQL (přes PDO)
-- Bezpečné hashování hesel (`password_hash`)
-- Prepared statements
-- Session management
-- CORS + credentials podpora pro React
+### 🛠️ Backend (PHP)
+- 🌐 REST API endpoints  
+- 💾 PDO + prepared statements  
+- 📤📥 JSON komunikace  
+- 🧱 Oddělené moduly: auth, profile, recipes  
 
----
-
-## 🧰 Technologie
-
-### Frontend
-- React
-- Vite
-- React Router
-- Bootstrap 5
-- FontAwesome
-
-### Backend
-- PHP (procedural + PDO)
-- MySQL
-- Sessions
+### 🗄️ Database (MySQL)
+Tabulky:
+- 🧑 `users`
 
 ---
 
-## Vysvětlivky
-🟩 - Vysvětluje část kódu
-🟧 - Odkazuje na komunikaci se serverem
-🟦 - Poukazuje na proměnné
+## 🚀 Installation & Setup
+
+### 1️⃣ Backend (PHP + MySQL)
+
+1. Nakopírujte složku do `htdocs` (XAMPP).  
+2. Vytvořte databázi.  
+3. Importujte SQL strukturu.  
+4. Upravte konfiguraci: backend/config/database.php
+5. Spusťte Apache + MySQL.
+❗ Backend musí běžet na `http://localhost/projekty/MyRecipeApp/`
 
 ---
 
-## 🧭 Návod ke spuštění
+### 2️⃣ Frontend (React)
 
-1. **Stažení projektu**
-   - Stáhni nebo naklonuj repozitář do svého počítače.
-   - Umísti celý projekt do XAMPP složky, např.:
-     ```
-     C:/xampp/htdocs/projekty/MyRecipeApp
-     ```
+```bash
+cd frontend
+npm install
+npm run dev
+```
+❗Fronted musí běžet na localhost:5173
 
-2. **Instalace frontendu**
-   - Otevři terminál ve složce:
-     ```
-     /frontend
-     ```
-   - Nainstaluj balíčky:
-     ```
-     npm install
-     ```
-   - Vytvoř produkční build:
-     ```
-     npm run build
-     ```
-   - Ve složce `frontend/dist` se vygeneruje hotový frontend.
+---
 
-3. **Umístění buildu**
-   - Otevři složku:
-     ```
-     frontend/dist
-     ```
-   - Zkopíruj *obsah* této složky (soubor `index.html` + složku `assets`)
-   - Vlož je přímo do složky hlavního projektu:
-     ```
-     /MyRecipeApp/
-     ```
-     (tam, kde je i složka `backend`)
+## 🧩 API Overview
 
-4. **Import databáze**
-   - Spusť **XAMPP** (Apache + MySQL).
-   - Otevři **phpMyAdmin** v prohlížeči:
-     ```
-     http://localhost/phpmyadmin
-     ```
-   - Vytvoř novou databázi (např. `myrecipeapp`).
-   - V levém menu ji vyber a v záložce **Import** nahraj `.sql` soubor ze složky:
-     ```
-     /database_sql
-     ```
-   - Import dokonči.
+### 🔐 Auth
+- `POST /auth/register.php`
+- `POST /auth/login.php`
+- `GET /auth/logout.php`
 
-5. **Nastavení připojení k databázi**
-   - Ve složce:
-     ```
-     /backend/config
-     ```
-     najdeš soubor `database_example.php`.
-   - Zkopíruj ho a přejmenuj na:
-     ```
-     database.php
-     ```
-   - V souboru `database.php` uprav přístupové údaje k databázi:
-     - název databáze  
-     - uživatelské jmén
-     - heslo
-   - Ulož změny.
+### 👤 Profile
+- `POST /profile/updateEmail.php`
+- `POST /profile/updateNickname.php`
+- `POST /profile/updatePassword.php`
+
+---
+
+## 🧰 Tech Stack
+- **Frontend:** React 18, React Router, Bootstrap  
+- **Backend:** PHP 8, PDO  
+- **Database:** MySQL  
+- **API:** JSON REST  
+
+---
 
 
-
-6. **Spuštění aplikace**
-   - Ujisti se, že v XAMPP běží **Apache** a **MySQL**.
-   - V prohlížeči přejdi na adresu:
-     ```text
-     http://localhost/projekty/MyRecipeApp/
-     ```
-   - Aplikace by se měla načíst a fungovat s napojením na databázi.
 

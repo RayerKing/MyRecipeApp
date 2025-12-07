@@ -43,7 +43,7 @@ function Register() {
 
     try {
       const response = await fetch(
-        "backend/auth/register.php",
+        "http://localhost/projekty/MyRecipeApp/backend/auth/register.php",
         {
           method: "POST",
           headers: {

@@ -29,7 +29,7 @@ function Profile_Info(props) {
           </div>
 
           {/* 🟩 Tabulka s údaji */}
-          <table className="table table-borderless mx-auto table_profile_info">
+          <table className="table table-borderless mx-auto" style={{maxWidth: "400px"}}>
             <tbody>
               <tr>
                 <th scope="row" className="text-muted w-100">
