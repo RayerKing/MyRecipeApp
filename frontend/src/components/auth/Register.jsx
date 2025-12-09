@@ -88,7 +88,7 @@ function Register() {
         }, 1000);
 
         setTimeout(() => {
-          navigate("/login");
+          navigate("/login", { replace: true});
         }, 3000);
 
         return;

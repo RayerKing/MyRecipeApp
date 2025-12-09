@@ -55,7 +55,7 @@ function Login(props) {
         setErrorMessage("");
         console.log(result.userData);
         props.setCurrentUser(result.userData);
-        navigate("/");
+        navigate(-1);
       }
     } catch (error) {
       console.log("Chyba při komunikaci při přihlášení: ", error);

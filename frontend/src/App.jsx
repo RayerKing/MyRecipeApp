@@ -9,6 +9,9 @@ function App() {
   // 🟦 State, odesílám pro zjištění, zda už je někdo přihlášen
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [lastPage, setLastPage] = useState("/");
+  const [profilePage, setProfilePage] = useState(null);
+  
   // 🟧 Zjištění přihlášeného uživatele
   useEffect(() => {
     async function getUser() {
@@ -38,10 +41,10 @@ function App() {
 
   return (
     <>
-      <Header currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+      <Header currentUser={currentUser} setCurrentUser={setCurrentUser} lastPage={lastPage} setLastPage={setLastPage}/>
 
       <main>
-        <AppRouter currentUser={currentUser} setCurrentUser={setCurrentUser} />
+        <AppRouter profilePage={profilePage} setProfilePage={setProfilePage} currentUser={currentUser} setCurrentUser={setCurrentUser} lastPage={lastPage} setLastPage={setLastPage}/>
         
       </main>
 

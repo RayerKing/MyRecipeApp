@@ -2,7 +2,7 @@
 ### Full-stack Recipe Platform built with **React**, **PHP** and **MySQL**
 
 MyRecipeApp je moderní webová aplikace pro správu receptů.  
-Umožňuje registraci uživatelů, přihlášení, správu profilu a kompletní CRUD operace nad recepty.
+Umožňuje registraci uživatelů, přihlášení, správu profilu.
 
 ---
 
@@ -36,6 +36,7 @@ Umožňuje registraci uživatelů, přihlášení, správu profilu a kompletní 
 ### 🗄️ Database (MySQL)
 Tabulky:
 - 🧑 `users`
+- 🍽️ `recipes`
 
 ---
 
@@ -85,5 +86,16 @@ npm run dev
 
 ---
 
+## 🛠️ Testovací data
+Níže najdete testovací účet, který lze použít pro přihlášení do aplikace:
+
+### 👤 Testovací uživatel
+
+| Položka          | Hodnota            | Popis                               |
+|------------------|--------------------|--------------------------------------|
+| 🧑 **Nickname**   | `testovaci_data`   | Přihlašovací jméno                   |
+| 🔑 **Heslo**       | `testovaciData`   | Heslo testovacího účtu               |
+
+---
 
 

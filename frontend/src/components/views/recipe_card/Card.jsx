@@ -1,9 +1,27 @@
-import PropTypes, { object } from "prop-types";
+import PropTypes from "prop-types";
 
 // 🟩 Komponenta pro blok konkrétního receptu
 function Card(props) {
+
+  // 🟩 Zda je recept soukromý, nebo veřejný
+  const is_private = (bol) => {
+    if (bol == 0) {
+      return (
+        <div className="position-absolute top-0 end-0 mt-2 me-2 p-3">
+          <span className="badge bg-success p-2 fs-6">Veřejné</span>
+        </div>
+      );
+    } else {
+      return (
+        <div className="position-absolute top-0 end-0 mt-2 me-2 p-3">
+          <span className="badge bg-danger p-2 fs-6">Soukromé</span>
+        </div>
+      );
+    }
+  };
+
   return (
-    <section>
+    <section className="text-decoration-none text-dark">
       <div className="card shadow mb-2 mx-auto p-3" style={{ maxWidth: "80%" }}>
         <div className="card-body">
           {/* 🟩 Nadpis */}
@@ -12,9 +30,14 @@ function Card(props) {
           {/* 🟩 Popis */}
           <p className="card-text mt-2">{props.recipe.description}</p>
 
-          {/* 🟩 Aautor + Datum */}
+          { /* 🟩 Vložení private/public */ }
+          {props.mode === "profile" && is_private(props.recipe.is_private)}
+
+          {/* 🟩 Autor + Datum */}
           <div className="d-flex justify-content-end flex-column text-end mt-3">
-            <small className="text-muted">Autor: {props.recipe.author}</small>
+            {props.mode !== "profile" && (
+              <small className="text-muted">Autor: {props.recipe.author}</small>
+            )}
             <small className="text-muted">
               Přidáno: {props.recipe.created_at}
             </small>
@@ -26,7 +49,8 @@ function Card(props) {
 }
 
 Card.propTypes = {
-  recipe: object,
+  recipe: PropTypes.object,
+  mode: PropTypes.string,
 };
 
 export default Card;

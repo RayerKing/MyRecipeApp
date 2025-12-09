@@ -31,7 +31,7 @@ function Header(props) {
       // 🟩 pokud úspěch
       if (result.success) {
         props.setCurrentUser(null);
-        navigate("/");
+        navigate(props.lastPage);
       } else {
         console.log("Neznámá chyba při odhlašování");
       }
@@ -160,6 +160,8 @@ function Header(props) {
 Header.propTypes = {
   currentUser: PropTypes.object,
   setCurrentUser: PropTypes.func,
+  lastPage: PropTypes.string,
+  setLastPage: PropTypes.func
 };
 
 export default Header;

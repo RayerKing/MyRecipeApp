@@ -3,26 +3,54 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../components/views/Home";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Profile from "../components/views/Profile";
+import DetailCard from "../components/views/recipe_card/DetailCard";
 
 // 🟩 Router pro cesty
 export default function AppRouter(props) {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route
+        path="/"
+        element={
+          <Home lastPage={props.lastPage} setLastPage={props.setLastPage} />
+        }
+      />
       <Route
         path="/login"
         element={
           <Login
             setCurrentUser={props.setCurrentUser}
-      currentUser={props.currentUser}
+            currentUser={props.currentUser}
+            lastPage={props.lastPage}
+            setLastPage={props.setLastPage}
           />
         }
       />
       <Route path="/register" element={<Register />} />
-      <Route path="/profile" element={<Profile setCurrentUser={props.setCurrentUser}
-            currentUser={props.currentUser} />}/>
+      <Route
+        path="/profile"
+        element={
+          <Profile
+            setCurrentUser={props.setCurrentUser}
+            currentUser={props.currentUser}
+            profilePage = {props.profilePage}
+            setProfilePage ={props.setProfilePage}
+          />
+        }
+      />
+      <Route
+        path="/recipe/:id"
+        element={
+          <DetailCard
+            lastPage={props.lastPage}
+            setLastPage={props.setLastPage}
+            profilePage = {props.profilePage}
+            setProfilePage ={props.setProfilePage}
+          />
+        }
+      />
     </Routes>
   );
 }
@@ -30,4 +58,8 @@ export default function AppRouter(props) {
 AppRouter.propTypes = {
   currentUser: PropTypes.object,
   setCurrentUser: PropTypes.func,
+  lastPage: PropTypes.string,
+  setLastPage: PropTypes.func,
+  profilePage: PropTypes.string,
+  setProfilePage: PropTypes.func
 };

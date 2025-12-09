@@ -11,7 +11,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/projekty/MyRecipeApp">
+    <BrowserRouter basename="/projekty/MyRecipeApp/">
       <App />
     </BrowserRouter>
   </StrictMode>

@@ -57,7 +57,12 @@ function Profile(props) {
 
         {/* 🟩 Pravá část */}
         <div className="col-12 col-md-9 col-lg-10 mt-3 mt-md-0">
-          {activeSection === "recept" && <MyRecept />}
+          {activeSection === "recept" && (
+            <MyRecept
+              profilePage={props.profilePage}
+              setProfilePage={props.setProfilePage}
+            />
+          )}
           {activeSection === "option" && (
             <Option
               currentUser={props.currentUser}
@@ -79,6 +84,8 @@ function Profile(props) {
 Profile.propTypes = {
   currentUser: PropTypes.object,
   setCurrentUser: PropTypes.func,
+  profilePage: PropTypes.string,
+  setProfilePage: PropTypes.func
 };
 
 export default Profile;
