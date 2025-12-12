@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 
 // 🟩 Komponenta pro detail karty
 function DetailCard(props) {
-
   // 🟩 Načtení id z url
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState({});
+  const [ingredients, setIngredients] = useState([]);
 
   const location = useLocation();
 
@@ -31,65 +31,85 @@ function DetailCard(props) {
 
   useEffect(() => {
     async function getDetail() {
-        
-            try {
-      const request = await fetch(`http://localhost/projekty/MyRecipeApp/backend/handle_card/get_detail_recipe.php?id=${id}`, {
-        method: "GET",
-        credentials: "include",
-      });
+      try {
+        const request = await fetch(
+          `http://localhost/projekty/MyRecipeApp/backend/handle_card/get_detail_recipe.php?id=${id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-      const result = await request.json();
-      
-      setDetails(result.data);
-    } catch (error) {
-      console.log("Něco se pokazilo při detailu karty", error);
+        const result = await request.json();
+
+        setDetails(result.data);
+        setIngredients(result.ingredient);
+      } catch (error) {
+        console.log("Něco se pokazilo při detailu karty", error);
+      }
     }
-        }
-    
-  
-  getDetail();
+
+    getDetail();
   }, [id]);
 
   return (
-    <section className="container my-4" style={{ maxWidth: "80%" }}>
-
-  {/* 🟩 Zpět tlačítko */}
-  <div className="mb-3">
-    <button 
-      type="button" 
-      className="btn btn-outline-secondary"
-      onClick={handleBack}
-    >
-      ← Zpět
-    </button>
-  </div>
-
-  {/* 🟩 Hlavní karta */}
-  <div className="card shadow-sm p-4">
-    
-    {/* 🟩 Titulek */}
-    <h2 className="mb-3 text-center">{details.title}</h2>
-
-    {/* 🟩 Autor + datum */}
-    <div className="d-flex justify-content-end text-muted mb-4">
-      <div className="text-end">
-        <div><strong>Autor:</strong> {details.author}</div>
-        <div><small>Vytvořeno: {details.created_at}</small></div>
+    <section className="container my-4" style={{ maxWidth: "900px" }}>
+      {/* 🟩 Zpět tlačítko */}
+      <div className="mb-3">
+        <button
+          type="button"
+          className="btn btn-outline-secondary"
+          onClick={handleBack}
+        >
+          ← Zpět
+        </button>
       </div>
-    </div>
 
-    {/* 🟩 Popis */}
-    <h5>Popis</h5>
-    <p className="mb-4">{details.description}</p>
+      {/* 🟩 Hlavní karta */}
+      <div className="card shadow-sm p-4 text-center">
+        {/* 🟩 Titulek */}
+        <h2 className="mb-3">{details.title}</h2>
 
-    {/* 🟩 Instrukce */}
-    <h5>Postup</h5>
-    <p className="mb-0">{details.instructions}</p>
+        {/* 🟩 Autor + datum */}
+        <div className="text-muted mb-4 text-end">
+          <strong>Autor:</strong> {details.author} <br />
+          <small>Vytvořeno: {details.created_at}</small>
+        </div>
 
-  </div>
+        {/* 🟩 Omezená šířka obsahu */}
+        <div className="mx-auto" style={{ maxWidth: "80%" }}>
+          {/* 🟩 Popis */}
+          <h5 className="text-start">Popis</h5>
+          <p className="mb-4 text-start">{details.description}</p>
 
-</section>
+          {/* 🟩 Ingredience */}
+          <h5 className="text-center">Ingredience</h5>
+          {ingredients.length === 0 ? (
+            <p className="text-center">Žádné ingredience</p>
+          ) : (
+            <table className="table ingredients-table text-center">
+  <tbody>
+    {ingredients.map((ingredient) => (
+      <tr key={ingredient.id}>
+        <td className="fw-bold text-start">
+          {ingredient.name}
+        </td>
+        <td className="text-center">
+          {ingredient.amount_value} {ingredient.amount_unit}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
+          )}
+
+          {/* 🟩 Instrukce */}
+          <h5 className="text-start">Postup</h5>
+          <p className="mb-0 text-start">{details.instructions}</p>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -97,7 +117,6 @@ DetailCard.propTypes = {
   lastPage: PropTypes.string,
   setLastPage: PropTypes.func,
   profilePage: PropTypes.string,
-  
 };
 
 export default DetailCard;

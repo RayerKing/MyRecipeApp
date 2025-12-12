@@ -54,10 +54,16 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         exit;
     }
 
+    $stmt = $pdo -> prepare("SELECT * FROM ingredients WHERE recipe_id = ? ORDER BY position ASC");
+    $stmt -> execute([$id]);
+
+    $recipeIngredient = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
     echo json_encode([
         "success" => true,
         "message" => "Detail poslán.",
         "data" => $recipeDetail,
+        "ingredient" => $recipeIngredient,
     ]);
     exit;
 
