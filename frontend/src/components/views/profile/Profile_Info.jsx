@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 // 🟩 Komponenta uživatele, zobrazuje info o uživateli
 function Profile_Info(props) {
@@ -23,7 +23,7 @@ function Profile_Info(props) {
 
             {props.currentUser.isActive == 0 && (
               <p className="text-danger mb-0">
-                Účet ještě nebyl ověřen. Některé funkce mohou být omezeny.
+                <FontAwesomeIcon icon={faTriangleExclamation} /> Účet ještě nebyl ověřen. Některé funkce mohou být omezeny.
               </p>
             )}
           </div>

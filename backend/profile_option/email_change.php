@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if(empty($email) || empty($password)){
         echo json_encode([
             "success" => false,
-            "message" => "Chybí data",
+            "message" => "Nejsou vyplněny všechny údaje.",
         ]);
         exit;
     }
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
         echo json_encode([
             "success"  => false,
-            "message" => "Neplatný email",
+            "message" => "Neplatný email.",
         ]);
         exit;
     }

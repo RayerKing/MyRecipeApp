@@ -66,6 +66,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
+    $stmt = $pdo -> prepare("SELECT id FROM users WHERE nickname = ? AND id != ? LIMIT 1");
+    $stmt -> execute([$nickname, $_SESSION["id"]]);
+    $uniqueNickname = $stmt->fetch();
+
+    if($uniqueNickname){
+        echo json_encode([
+            "success" => false,
+            "message" => "Přezdívka je již používaná."
+        ]);
+        exit;
+    }
+
     // 🟩 Dotaz pro aktualizaci dat
     $stmt = $pdo->prepare("UPDATE users SET nickname = ?, firstName = ?, lastName = ? WHERE id= ?");
     $stmt->execute([$nickname, $firstName, $lastName, $_SESSION["id"]]);

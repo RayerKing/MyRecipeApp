@@ -77,7 +77,7 @@ function Login(props) {
             {/* 🟩 Nickname */}
             <div className="mb-3">
               <label htmlFor="input_nickname" className="form-label">
-                <FontAwesomeIcon icon={faUser} /> Nickname
+                <FontAwesomeIcon icon={faUser} /> Přezdívka
               </label>
               <input
                 type="text"
@@ -92,7 +92,7 @@ function Login(props) {
             {/* 🟩 Password */}
             <div className="mb-3">
               <label htmlFor="input_password" className="form-label">
-                <FontAwesomeIcon icon={faKey} /> Password
+                <FontAwesomeIcon icon={faKey} /> Heslo
               </label>
               <input
                 type="password"

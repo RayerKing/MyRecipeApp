@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($password)) {
         echo json_encode([
             "success" => false,
-            "message" => "Chybí data."
+            "message" => "Nejsou vyplněny všechny údaje."
         ]);
         exit;
     }
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!$isSure) {
         echo json_encode([
             "success" => false,
-            "message" => "Checkbox chybí"
+            "message" => "Nutno zaškrtnout!"
 
 
         ]);

@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($oldPassword) || empty($newPassword) || empty($newPasswordRepeat)) {
         echo json_encode([
             "success" => false,
-            "message" => "Chybí data"
+            "message" => "Nejsou vyplněny všechny údaje."
         ]);
         exit;
     }
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (strlen($newPassword) < 8) {
         echo json_encode([
             "success" => false,
-            "message" => "Hesla je moc krátké.",
+            "message" => "Heslo je moc krátké.",
         ]);
         exit;
     }

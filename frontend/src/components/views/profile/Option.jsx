@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faUser, faKey, faIdCard, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 
 // 🟩 Komponenta Nastavení účtu přihlášeného uživatele
 function Option(props) {
@@ -72,7 +72,7 @@ function Option(props) {
       console.log("Změna message: " + result.message);
 
       if (!result.success) {
-        setErrorMessage("Něco se nepovedlo.");
+        setErrorMessage(result.message);
 
         return;
       }
@@ -115,7 +115,7 @@ function Option(props) {
       const result = await request.json();
 
       if (!result.success) {
-        setErrorEmail("Něco se pokazilo.");
+        setErrorEmail(result.message);
         return;
       }
       if (result.success) {
@@ -156,8 +156,8 @@ function Option(props) {
 
       if (!result.success) {
         setSuccessPassword("");
-        setErrorPassword("Něco se pokazilo.");
-        console.log(result.message);
+        setErrorPassword(result.message);
+        
         return;
       }
 
@@ -173,6 +173,7 @@ function Option(props) {
     }
   }
 
+  // 🟧 Funkce pro zrušení účtu
   async function handleCancel() {
     setErrorCancel("");
     setSuccessCancel("");
@@ -195,7 +196,7 @@ function Option(props) {
       const result = await request.json();
       console.log(result.message);
       if (!result.success) {
-        setErrorCancel("Něco se pokazilo.");
+        setErrorCancel(result.message);
         return;
       }
 
@@ -235,7 +236,7 @@ function Option(props) {
           </div>
 
           <div className="card-body">
-            <h4 className="mb-4 text-center">Úprava údajů</h4>
+            <h4 className="mb-4 text-center"><FontAwesomeIcon icon={faIdCard} /> Úprava údajů</h4>
 
             <form>
               {/* 🟩 Nickname */}
@@ -244,7 +245,7 @@ function Option(props) {
                   htmlFor="option_nickname"
                   className="form-label fs-5 fw-semibold"
                 >
-                  Nickname
+                  <FontAwesomeIcon icon={faUser} className="text-muted" size="sm"/> Přezdívka
                 </label>
                 <input
                   type="text"
@@ -261,7 +262,7 @@ function Option(props) {
                   htmlFor="option_input_firstName"
                   className="form-label fs-5 fw-semibold"
                 >
-                  First Name
+                  <FontAwesomeIcon icon={faUser} className="text-muted" size="sm" /> Jméno
                 </label>
                 <input
                   type="text"
@@ -278,7 +279,7 @@ function Option(props) {
                   htmlFor="option_input_lastName"
                   className="form-label fs-5 fw-semibold"
                 >
-                  Last Name
+                  <FontAwesomeIcon icon={faUser} className="text-muted" size="sm" /> Příjmení
                 </label>
                 <input
                   type="text"
@@ -288,14 +289,14 @@ function Option(props) {
                   onChange={(e) => setOptionLastName(e.target.value)}
                 />
               </div>
-
+              
               {/* 🟩 Password */}
               <div className="mb-3 text-center">
                 <label
                   htmlFor="option_input_password"
                   className="form-label fs-5 fw-semibold"
                 >
-                  Password
+                  <FontAwesomeIcon icon={faKey} className="text-muted" size="sm" /> Heslo pro potvrzení
                 </label>
                 <input
                   type="password"
@@ -307,9 +308,9 @@ function Option(props) {
               </div>
 
               {/* 🟩 Error / Success messages */}
-              {errorMessage && <p className="text-danger">{errorMessage}</p>}
+              {errorMessage && <p className="text-danger text-center">{errorMessage}</p>}
               {successMessage && (
-                <p className="text-success">{successMessage}</p>
+                <p className="text-success text-center">{successMessage}</p>
               )}
 
               <button
@@ -326,7 +327,7 @@ function Option(props) {
         {/* 🟩 Blok: Změna emailu */}
         <div className="card shadow border-0 mb-4">
           <div className="card-body">
-            <h4 className="mb-4 text-center">Změna emailu</h4>
+            <h4 className="mb-4 text-center"><FontAwesomeIcon icon={faEnvelope} /> Změna emailu</h4>
 
             <form>
               {/* 🟩 Email */}
@@ -335,7 +336,7 @@ function Option(props) {
                   htmlFor="option_input_email"
                   className="form-label fs-5 fw-semibold"
                 >
-                  Email
+                  <FontAwesomeIcon icon={faEnvelope} className="text-muted" size="sm"  /> Email
                 </label>
                 <input
                   type="email"
@@ -352,7 +353,7 @@ function Option(props) {
                   htmlFor="option_input_password_confirm"
                   className="form-label fs-5 fw-semibold"
                 >
-                  Password
+                  <FontAwesomeIcon icon={faKey} className="text-muted" size="sm" /> Heslo pro potvrzení
                 </label>
                 <input
                   type="password"
@@ -364,8 +365,8 @@ function Option(props) {
               </div>
 
               {/* 🟩 Error / Success */}
-              {errorEmail && <p className="text-danger">{errorEmail}</p>}
-              {successEmail && <p className="text-success">{successEmail}</p>}
+              {errorEmail && <p className="text-danger text-center">{errorEmail}</p>}
+              {successEmail && <p className="text-success text-center">{successEmail}</p>}
 
               <button
                 type="button"
@@ -381,7 +382,7 @@ function Option(props) {
         {/* 🟩 Blok: Změna hesla */}
         <div className="card shadow border-0 mb-4">
           <div className="card-body">
-            <h4 className="mb-4 text-center">Změna hesla</h4>
+            <h4 className="mb-4 text-center"><FontAwesomeIcon icon={faLock} /> Změna hesla</h4>
 
             <form>
               {/* 🟩 Old Password */}
@@ -390,7 +391,7 @@ function Option(props) {
                   htmlFor="option_old_change_password"
                   className="form-label fs-5 fw-semibold"
                 >
-                  Old Password
+                  <FontAwesomeIcon icon={faKey} className="text-muted" size="sm" /> Staré heslo
                 </label>
                 <input
                   type="password"
@@ -407,7 +408,7 @@ function Option(props) {
                   htmlFor="option_new_change_password"
                   className="form-label fs-5 fw-semibold"
                 >
-                  New Password
+                  <FontAwesomeIcon icon={faKey} className="text-muted" size="sm" /> Nové heslo
                 </label>
                 <input
                   type="password"
@@ -424,7 +425,7 @@ function Option(props) {
                   htmlFor="option_new_change_password_repeat"
                   className="form-label fs-5 fw-semibold"
                 >
-                  New Password Again
+                  <FontAwesomeIcon icon={faKey} className="text-muted" size="sm" /> Nové heslo znovu
                 </label>
                 <input
                   type="password"
@@ -436,9 +437,9 @@ function Option(props) {
               </div>
 
               {/* 🟩 Error / Success messages */}
-              {errorPassword && <p className="text-danger">{errorPassword}</p>}
+              {errorPassword && <p className="text-danger text-center">{errorPassword}</p>}
               {successPassword && (
-                <p className="text-success">{successPassword}</p>
+                <p className="text-success text-center">{successPassword}</p>
               )}
 
               <button
@@ -464,7 +465,7 @@ function Option(props) {
                   htmlFor="option_input_password_cancel"
                   className="form-label fs-5 fw-semibold"
                 >
-                  Password
+                  <FontAwesomeIcon icon={faKey} className="text-muted" size="sm" /> Heslo pro potvrzení
                 </label>
                 <input
                   type="password"
@@ -476,7 +477,7 @@ function Option(props) {
                 <div className="form-check d-flex justify-content-center align-items-center gap-2 text-center">
                   <input
                     type="checkbox"
-                    className="form-check-input border border-danger"
+                    className=" border border-danger checkbox-danger"
                     id="checkbox"
                     checked={agree}
                     onChange={(e) => setAgree(e.target.checked)}
@@ -487,6 +488,7 @@ function Option(props) {
                   >
                     Účet bude nenávratně zrušen!
                   </label>
+                  
                 </div>
               </div>
 

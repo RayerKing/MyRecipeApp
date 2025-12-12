@@ -114,7 +114,7 @@ function Register() {
             <div className="row mb-3">
               <div className="col-md-6 mb-3 mb-md-0">
                 <label htmlFor="input_first_name" className="form-label">
-                  <FontAwesomeIcon icon={faUser} /> FirstName
+                  <FontAwesomeIcon icon={faUser} /> Jméno
                 </label>
                 <input
                   type="text"
@@ -129,7 +129,7 @@ function Register() {
               {/* 🟩 Last Name */}
               <div className="col-md-6">
                 <label htmlFor="input_last_name" className="form-label">
-                  <FontAwesomeIcon icon={faUser} /> LastName
+                  <FontAwesomeIcon icon={faUser} /> Příjmení
                 </label>
                 <input
                   type="text"
@@ -160,7 +160,7 @@ function Register() {
             { /* 🟩 Nickname */ }
             <div className="mb-3">
               <label htmlFor="input_nickname" className="form-label">
-                <FontAwesomeIcon icon={faUser} /> Nickname
+                <FontAwesomeIcon icon={faUser} /> Přezdívka
               </label>
               <input
                 type="text"
@@ -175,7 +175,7 @@ function Register() {
             {/* 🟩 Password */}
             <div className="mb-3">
               <label htmlFor="input_password" className="form-label">
-                <FontAwesomeIcon icon={faKey} /> Password
+                <FontAwesomeIcon icon={faKey} /> Heslo
               </label>
               <input
                 type="password"
@@ -189,7 +189,7 @@ function Register() {
             {/* 🟩 Password again */}
             <div className="mb-4">
               <label htmlFor="input_password_again" className="form-label">
-                <FontAwesomeIcon icon={faKey} /> Password Repeat
+                <FontAwesomeIcon icon={faKey} /> Heslo znovu
               </label>
               <input
                 type="password"
