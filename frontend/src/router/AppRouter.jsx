@@ -6,6 +6,7 @@ import Register from "../components/auth/Register";
 import PropTypes from "prop-types";
 import Profile from "../components/views/Profile";
 import DetailCard from "../components/views/recipe_card/DetailCard";
+import EditCard from "../components/views/recipe_card/EditCard";
 
 // 🟩 Router pro cesty
 export default function AppRouter(props) {
@@ -35,8 +36,8 @@ export default function AppRouter(props) {
           <Profile
             setCurrentUser={props.setCurrentUser}
             currentUser={props.currentUser}
-            profilePage = {props.profilePage}
-            setProfilePage ={props.setProfilePage}
+            profilePage={props.profilePage}
+            setProfilePage={props.setProfilePage}
           />
         }
       />
@@ -46,10 +47,15 @@ export default function AppRouter(props) {
           <DetailCard
             lastPage={props.lastPage}
             setLastPage={props.setLastPage}
-            profilePage = {props.profilePage}
-            setProfilePage ={props.setProfilePage}
+            profilePage={props.profilePage}
+            setProfilePage={props.setProfilePage}
+            currentUser={props.currentUser}
           />
         }
+      />
+      <Route
+        path="/recipe/:id/edit"
+        element={<EditCard currentUser={props.currentUser} />}
       />
     </Routes>
   );
@@ -61,5 +67,5 @@ AppRouter.propTypes = {
   lastPage: PropTypes.string,
   setLastPage: PropTypes.func,
   profilePage: PropTypes.string,
-  setProfilePage: PropTypes.func
+  setProfilePage: PropTypes.func,
 };

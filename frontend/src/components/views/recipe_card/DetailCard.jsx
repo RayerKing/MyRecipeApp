@@ -52,6 +52,10 @@ function DetailCard(props) {
     getDetail();
   }, [id]);
 
+  const handleEditRecipe = () => {
+    navigate(`/recipe/${id}/edit`);
+  };
+
   return (
     <section className="container my-4" style={{ maxWidth: "900px" }}>
       {/* 🟩 Zpět tlačítko */}
@@ -69,6 +73,17 @@ function DetailCard(props) {
       <div className="card shadow-sm p-4 text-center">
         {/* 🟩 Titulek */}
         <h2 className="mb-3">{details.title}</h2>
+
+        { /* 🟩 Edit button */ }
+        {props.currentUser?.id == details.user_id && (
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            onClick={handleEditRecipe}
+          >
+            Upravit
+          </button>
+        )}
 
         {/* 🟩 Autor + datum */}
         <div className="text-muted mb-4 text-end">
@@ -88,22 +103,18 @@ function DetailCard(props) {
             <p className="text-center">Žádné ingredience</p>
           ) : (
             <table className="table ingredients-table text-center">
-  <tbody>
-    {ingredients.map((ingredient) => (
-      <tr key={ingredient.id}>
-        <td className="fw-bold text-start">
-          {ingredient.name}
-        </td>
-        <td className="text-center">
-          {ingredient.amount_value} {ingredient.amount_unit}
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
+              <tbody>
+                {ingredients.map((ingredient) => (
+                  <tr key={ingredient.id}>
+                    <td className="fw-bold text-start">{ingredient.name}</td>
+                    <td className="text-center">
+                      {ingredient.amount_value} {ingredient.amount_unit}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
-
           {/* 🟩 Instrukce */}
           <h5 className="text-start">Postup</h5>
           <p className="mb-0 text-start">{details.instructions}</p>
@@ -117,6 +128,7 @@ DetailCard.propTypes = {
   lastPage: PropTypes.string,
   setLastPage: PropTypes.func,
   profilePage: PropTypes.string,
+  currentUser: PropTypes.object,
 };
 
 export default DetailCard;
