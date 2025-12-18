@@ -55,7 +55,14 @@ export default function AppRouter(props) {
       />
       <Route
         path="/recipe/:id/edit"
-        element={<EditCard currentUser={props.currentUser} />}
+        element={
+          <EditCard
+            currentUser={props.currentUser}
+            lastPage={props.lastPage}
+            profilePage={props.profilePage}
+            setFlashMessage={props.setFlashMessage}
+          />
+        }
       />
     </Routes>
   );
@@ -68,4 +75,5 @@ AppRouter.propTypes = {
   setLastPage: PropTypes.func,
   profilePage: PropTypes.string,
   setProfilePage: PropTypes.func,
+  setFlashMessage: PropTypes.func,
 };

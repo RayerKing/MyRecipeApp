@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $limit = 10;
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM recipes WHERE user_id = ? ORDER BY created_at DESC
+    $stmt = $pdo->prepare("SELECT * FROM recipes WHERE user_id = ? AND is_deleted != 1 ORDER BY created_at DESC
 LIMIT ?, ?");
     $stmt->bindValue(1, $_SESSION["id"], PDO::PARAM_INT);
     $stmt->bindValue(2, $offset, PDO::PARAM_INT);

@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faMinus,
   faPen,
   faPlus,
+  faTrash,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
 
 // 🟩 Kompononenta pro editování konkrétního receptu
-function EditCard() {
+function EditCard(props) {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   // 🟩 Detail = drží popis, nadpis, instrukce
   const [detail, setDetail] = useState({});
@@ -20,6 +24,7 @@ function EditCard() {
   const [ingredients, setIngredients] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [deleteErrorMessage, setDeleteErrorMessage] = useState("");
   const units = [
     "g",
     "kg",
@@ -57,7 +62,7 @@ function EditCard() {
         }
 
         if (result.success) {
-          console.log(result.ingredient);
+          //console.log(result.ingredient);
           setDetail(result.data);
           setIngredients(result.ingredient);
         }
@@ -90,7 +95,7 @@ function EditCard() {
           method: "POST",
           credentials: "include",
           headers: {
-            "Content-Type": "application.json",
+            "Content-Type": "application/json",
           },
           body: data,
         }
@@ -99,6 +104,7 @@ function EditCard() {
 
       if (!result.success) {
         setErrorMessage(result.message);
+        return;
       }
 
       if (result.success) {
@@ -139,7 +145,9 @@ function EditCard() {
   };
 
   const handleBack = () => {
-    navigate(`/recipe/${id}`);
+    navigate(`/recipe/${id}`, {
+      state: location.state,
+    });
     setDetail({});
     setIngredients([]);
     setErrorMessage("");
@@ -160,6 +168,53 @@ function EditCard() {
       },
     ]);
   };
+
+  const from = location.state?.from;
+
+  // 🟧 Funkce pro smazání receptu
+  async function handleDeleteRecipe() {
+    setDeleteErrorMessage("");
+
+    const idRecipe = id;
+
+    try {
+      const request = await fetch(
+        "http://localhost/projekty/MyRecipeApp/backend/handle_card/delete_recipe.php",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(idRecipe),
+        }
+      );
+
+      const result = await request.json();
+      console.log(result.message);
+      if (!result.success) {
+        setDeleteErrorMessage(result.message);
+        return;
+      }
+
+      if (result.success) {
+        setSuccessMessage(result.message);
+        props.setFlashMessage(result.message);
+        if (from === "profile" && props.profilePage) {
+          navigate(props.profilePage);
+        } else if (props.lastPage) {
+          navigate(props.lastPage);
+        } else {
+          navigate("/");
+        }
+        setTimeout(() => {
+          props.setFlashMessage(null);
+        }, 2000);
+      }
+    } catch (error) {
+      console.log("Při smazání došlo k chybě", error);
+    }
+  }
 
   return (
     <section className="container my-4" style={{ maxWidth: "900px" }}>
@@ -218,7 +273,6 @@ function EditCard() {
             <div className="mb-3">
               <label className="form-label fw-bold mb-2">Ingredience</label>
 
-              
               <div className="mx-auto" style={{ maxWidth: "760px" }}>
                 {ingredients.map((ingredient) => {
                   const rowId = ingredient.id ?? ingredient.tempId;
@@ -336,7 +390,7 @@ function EditCard() {
               </button>
             </div>
 
-                { /* Výsledné messages */ }
+            {/* 🟩 Výsledné messages */}
             <div className="text-center fs-5 mt-3">
               {errorMessage && (
                 <p className="text-danger mb-0">{errorMessage}</p>
@@ -346,10 +400,37 @@ function EditCard() {
               )}
             </div>
           </form>
+          {/* 🟥 Smazání receptu */}
+          <hr className="my-4" />
+          <div className="d-flex flex-column align-items-center">
+            <small className="text-muted mb-2">
+              Nebezpečná akce (nelze vrátit)
+            </small>
+
+            <button
+              type="button"
+              className="btn btn-outline-danger"
+              onClick={handleDeleteRecipe}
+            >
+              <FontAwesomeIcon icon={faTrash} className="me-2" />
+              Smazat recept
+            </button>
+          </div>
+          <div className="text-center fs-5 mt-3">
+            {deleteErrorMessage && (
+              <p className="text-danger mb-0">{deleteErrorMessage}</p>
+            )}
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+EditCard.propTypes = {
+  lastPage: PropTypes.string,
+  setFlashMessage: PropTypes.func,
+  profilePage: PropTypes.string,
+};
 
 export default EditCard;

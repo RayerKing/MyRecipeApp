@@ -53,7 +53,9 @@ function DetailCard(props) {
   }, [id]);
 
   const handleEditRecipe = () => {
-    navigate(`/recipe/${id}/edit`);
+    navigate(`/recipe/${id}/edit`, {
+      state: location.state,
+    });
   };
 
   return (
@@ -74,7 +76,7 @@ function DetailCard(props) {
         {/* 🟩 Titulek */}
         <h2 className="mb-3">{details.title}</h2>
 
-        { /* 🟩 Edit button */ }
+        {/* 🟩 Edit button */}
         {props.currentUser?.id == details.user_id && (
           <button
             type="button"
