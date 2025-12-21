@@ -102,4 +102,14 @@ Níže najdete testovací účet, který lze použít pro přihlášení do apli
 
 ---
 
+## 🚀 Plány s projektem
+
+- ⭐ Hodnocení receptů
+- 💬 Komentáře k receptům
+- 🔔 Notifikace (nový komentář)
+- 🖼️ Úprava vizuálu a formátu výstupu
+- 🔍 Řazení a filtrování
+
+
+
 
