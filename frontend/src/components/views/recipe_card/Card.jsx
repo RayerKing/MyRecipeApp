@@ -28,11 +28,12 @@ function Card(props) {
           <h3 className="card-title fw-bold">{props.recipe.title}</h3>
 
           {/* 🟩 Popis */}
+          
           <p className="card-text mt-2">{props.recipe.description}</p>
 
           { /* 🟩 Vložení private/public */ }
           {props.mode === "profile" && is_private(props.recipe.is_private)}
-
+          
           {/* 🟩 Autor + Datum */}
           <div className="d-flex justify-content-end flex-column text-end mt-3">
             {props.mode !== "profile" && (

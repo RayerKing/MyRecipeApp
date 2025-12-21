@@ -199,7 +199,7 @@ function EditCard(props) {
 
       if (result.success) {
         setSuccessMessage(result.message);
-        props.setFlashMessage(result.message);
+        props.setFlashMessage({"message" : result.message, "type": "delete"});
         if (from === "profile" && props.profilePage) {
           navigate(props.profilePage);
         } else if (props.lastPage) {
@@ -298,7 +298,7 @@ function EditCard(props) {
                       {/* Množství */}
                       <div className="col-6 col-md-2">
                         <input
-                          type="text"
+                          type="number"
                           className="form-control form-control-sm"
                           placeholder="Množství"
                           value={ingredient.amount_value}
@@ -350,7 +350,7 @@ function EditCard(props) {
                 className="btn btn-outline-primary btn-sm rounded-2 d-flex align-items-center justify-content-center"
                 style={{ width: "38px", height: "38px" }}
                 onClick={handleNewIngredient}
-                title="Přidat ingredienci"
+                
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>

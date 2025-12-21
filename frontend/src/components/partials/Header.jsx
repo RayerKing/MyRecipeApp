@@ -5,6 +5,7 @@ import {
   faUserPlus,
   faDrumstickBite,
   faUser,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -58,6 +59,17 @@ function Header(props) {
 
             {/* 🟩 Navigace */}
             <ul className="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
+              { /* 🟩 Přidat recept */ }
+              {props.currentUser?.id && <li className="nav-item">
+                <Link to="/add" className={
+                    location.pathname === "/add"
+                      ? "nav-link text-secondary text-decoration-underline"
+                      : "nav-link text-secondary"
+                  }>
+                    <FontAwesomeIcon icon={faPlus} /> Přidat
+                </Link>
+              </li>}
+              
               {/* 🟩 Domů */}
               <li className="nav-item">
                 <Link

@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     u.nickname AS author
 FROM recipes r
 INNER JOIN users u ON r.user_id = u.id
-WHERE r.is_deleted = 0
+WHERE r.is_deleted = 0 AND is_private = 0
 ORDER BY r.created_at DESC
 LIMIT ?, ?
 ");
@@ -44,7 +44,7 @@ LIMIT ?, ?
     $stmt->execute();
     $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM recipes WHERE is_deleted = 0");
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM recipes WHERE is_deleted = 0 AND is_private = 0");
     $stmt->execute();
     $count = $stmt->fetchColumn();
 

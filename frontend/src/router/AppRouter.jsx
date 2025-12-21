@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import Profile from "../components/views/Profile";
 import DetailCard from "../components/views/recipe_card/DetailCard";
 import EditCard from "../components/views/recipe_card/EditCard";
+import AddCard from "../components/views/recipe_card/AddCard";
 
 // 🟩 Router pro cesty
 export default function AppRouter(props) {
@@ -64,7 +65,9 @@ export default function AppRouter(props) {
           />
         }
       />
+      <Route path="/add" element={<AddCard setFlashMessage={props.setFlashMessage} />} />
     </Routes>
+
   );
 }
 
