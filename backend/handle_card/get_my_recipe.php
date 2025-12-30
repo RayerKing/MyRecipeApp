@@ -49,6 +49,11 @@ LIMIT ?, ?");
 
     $userRecipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    for ($r = 0; $r < count($userRecipes); $r++) {
+
+        $userRecipes[$r]["created_at"] = (new DateTime($userRecipes[$r]["created_at"]))->format("d. m. Y H:i");
+    }
+
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM recipes WHERE user_id = ?");
     $stmt->execute([$_SESSION["id"]]);
     $count = $stmt->fetchColumn();

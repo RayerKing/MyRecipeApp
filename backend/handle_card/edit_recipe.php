@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    if ($user["user_id"] != $_SESSION["id"]) {
+    if ($user["user_id"] != $_SESSION["id"] && $_SESSION["role"] !== "admin") {
         echo json_encode([
             "success" => false,
             "message" => "Nemáte oprávnění."

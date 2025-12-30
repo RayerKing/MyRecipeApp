@@ -60,10 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    if($authorRecipe["user_id"] !== $_SESSION["id"]){
+
+    if($authorRecipe["user_id"] !== $_SESSION["id"] && $_SESSION["role"] !== "admin"){
         echo json_encode([
             "success" => false,
             "message" => "Nemáte oprávnění měnit tento recept.",
+            
         ]);
         exit;
     }
@@ -73,11 +75,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $recipeIngredient = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
+    for ($i = 0; $i < count($recipeIngredient); $i++){
+        if ($recipeIngredient[$i]["amount_unit"] == "podle chuti"){
+            $recipeIngredient[$i]["amount_value"] = "";
+        }
+    }
+
     echo json_encode([
         "success" => true,
         "message" => "Detail poslán.",
         "data" => $authorRecipe,
         "ingredient" => $recipeIngredient,
+        
     ]);
     exit;
 

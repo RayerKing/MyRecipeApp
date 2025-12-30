@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 21. pro 2025, 21:35
+-- Vytvořeno: Úte 30. pro 2025, 21:38
 -- Verze serveru: 10.4.32-MariaDB
 -- Verze PHP: 8.2.12
 
@@ -70,17 +70,18 @@ INSERT INTO `ingredients` (`id`, `recipe_id`, `name`, `amount_value`, `amount_un
 (77, 102, 'Eidam', 250.00, 'g', 1),
 (78, 102, 'Vejce', 2.00, 'ks', 2),
 (79, 102, 'Strouhanka', 300.00, 'g', 3),
-(80, 103, 'Těstoviny', 400.00, 'g', 1),
-(81, 103, 'Rajčata v plechu', 400.00, 'g', 2),
-(82, 103, 'Bazalka', 0.00, 'podle chuti', 3),
-(83, 104, 'Brambory', 800.00, 'g', 1),
-(84, 104, 'Mouka', 2.00, 'lžíce', 2),
-(85, 105, 'Losos', 2.00, 'ks', 1),
-(86, 105, 'Máslo', 30.00, 'g', 2),
 (87, 106, 'Vepřová panenka', 500.00, 'g', 1),
 (88, 107, 'Fazole', 400.00, 'g', 1),
 (89, 107, 'Cibule', 1.00, 'ks', 2),
-(90, 107, 'Paprika', 1.00, 'lžíce', 3);
+(90, 107, 'Paprika', 1.00, 'lžíce', 3),
+(91, 104, 'Brambory', 800.00, 'g', 1),
+(92, 104, 'Mouka', 2.00, 'lžíce', 2),
+(93, 103, 'Těstoviny', 400.00, 'g', 1),
+(94, 103, 'Rajčata v plechu', 400.00, 'g', 2),
+(95, 103, 'Bazalka', 0.00, 'podle chuti', 3),
+(96, 103, 'Sůl a pepř', 0.00, 'podle chuti', 4),
+(97, 105, 'Losos', 4.00, 'ks', 1),
+(98, 105, 'Máslo', 30.00, 'g', 2);
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,7 @@ INSERT INTO `recipes` (`id`, `user_id`, `title`, `description`, `created_at`, `i
 (103, 9, 'Těstoviny s rajčatovou omáčkou', 'Lehký bezmasý oběd.', '2025-12-21 21:16:57', 'Uvař těstoviny, připrav rajčatovou omáčku a smíchej.', 0, 0),
 (104, 9, 'Bramboráky', 'Křupavé placičky z brambor.', '2025-12-21 21:17:36', 'Smíchej suroviny a smaž na pánvi.', 0, 0),
 (105, 10, 'Losos na másle', 'Rychlé a zdravé jídlo.', '2025-12-21 21:32:24', 'Lososa osol a opeč na másle.', 0, 0),
-(106, 10, 'Vepřová panenka', 'Jemné maso na rychlou úpravu.', '2025-12-21 21:32:52', 'Panenku opeč a nech dojít v troubě.', 0, 0),
+(106, 10, 'Vepřová panenka', 'Jemné maso na rychlou úpravu.', '2025-12-21 21:32:52', 'Panenku opeč a nech dojít v troubě.', 0, 1),
 (107, 10, 'Fazolový guláš', 'Fazolový guláš', '2025-12-21 21:33:30', 'Uvař fazole, přidej cibuli a papriku.', 1, 0);
 
 -- --------------------------------------------------------
@@ -143,7 +144,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password_hash`, `nickname`, `firstName`, `lastName`, `role`, `is_activated_email`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(9, 'testovaciData@seznam.cz', '$2y$10$WVDeuAk8Q7Pj72xpVHug..YlJAM1nFfMnYWZwjLqrA42ooTmXSlla', 'testovaci_data', 'Testovaci', 'Data', 'user', 0, 0, '2025-12-09 20:01:43', '2025-12-09 20:01:43'),
+(9, 'testovaciData@seznam.cz', '$2y$10$WVDeuAk8Q7Pj72xpVHug..YlJAM1nFfMnYWZwjLqrA42ooTmXSlla', 'testovaci_data', 'Testovaci', 'Data', 'admin', 0, 0, '2025-12-09 20:01:43', '2025-12-30 21:11:21'),
 (10, 'test@seznam.cz', '$2y$10$eZdEZ5SZCWMOyKqeiA2Xp.iT.e7aF3xej3tVLGS89LyjL.tUJrQyC', 'test', 'Test', 'Data', 'user', 0, 0, '2025-12-21 21:31:24', '2025-12-21 21:31:24');
 
 --
@@ -180,7 +181,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pro tabulku `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID ingredience', AUTO_INCREMENT=91;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID ingredience', AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT pro tabulku `recipes`

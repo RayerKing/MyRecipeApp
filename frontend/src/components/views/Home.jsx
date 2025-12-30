@@ -51,6 +51,7 @@ function Home(props) {
 
         const result = await request.json();
 
+        
         setRecipes(result.data);
         
         setEndPage(Math.ceil(result.count / count_of_recipes_on_page));

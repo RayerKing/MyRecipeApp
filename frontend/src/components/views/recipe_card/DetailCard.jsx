@@ -41,9 +41,11 @@ function DetailCard(props) {
         );
 
         const result = await request.json();
+        
 
         setDetails(result.data);
         setIngredients(result.ingredient);
+        
       } catch (error) {
         console.log("Něco se pokazilo při detailu karty", error);
       }
@@ -77,16 +79,18 @@ function DetailCard(props) {
         <h2 className="mb-3">{details.title}</h2>
 
         {/* 🟩 Edit button */}
-        {props.currentUser?.id == details.user_id && (
-          <button
-            type="button"
-            className="btn btn-outline-secondary"
-            onClick={handleEditRecipe}
-          >
-            Upravit
-          </button>
-        )}
-
+        <div className="d-flex justify-content-center">
+          
+          {(props.currentUser?.id == details.user_id || props.currentUser?.role == "admin") && (
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={handleEditRecipe}
+            >
+              Upravit
+            </button>
+          )}
+        </div>
         {/* 🟩 Autor + datum */}
         <div className="text-muted mb-4 text-end">
           <strong>Autor:</strong> {details.author} <br />

@@ -3,6 +3,14 @@
 
 MyRecipeApp je moderní webová aplikace pro správu receptů.  
 Umožňuje registraci uživatelů, přihlášení, správu profilu, vytváření, úpravu a smazání receptů.
+Admin má právo upravovat a mazat veškeré recepty nezávisle na autorovi.
+
+---
+
+## 📸 Ukázka aplikace
+
+![Hlavní stránka](docs/hlavniPage.png)
+![Edit receptu](docs/editPage.png)
 
 ---
 
@@ -88,17 +96,26 @@ npm run dev
 ---
 
 ## 🛠️ Testovací data
-Níže najdete testovací účet, který lze použít pro přihlášení do aplikace:
+Níže najdete testovací účty, které lze použít pro přihlášení do aplikace:
 
-### 👤 Testovací uživatel
+### 👤 Testovací uživatel – admin
 
-| Položka          | Hodnota            | Popis                               |
-|------------------|--------------------|--------------------------------------|
-| 🧑 **Nickname**   | `testovaci_data`   | Přihlašovací jméno                   |
-| 🔑 **Heslo**       | `testovaciData`   | Heslo testovacího účtu               |
-|-------------------------------------------------------------------------------|
-| 🧑 **Nickname**   | `testovaci_data`   | Přihlašovací jméno                   |
-| 🔑 **Heslo**       | `testovaciData`   | Heslo testovacího účtu               |
+| Položka            | Hodnota          | Popis                |
+|--------------------|------------------|----------------------|
+| 🧑 **Nickname**     | `testovaci_data` | Přihlašovací jméno   |
+| 🔑 **Heslo**        | `testovaciData`  | Heslo účtu           |
+| 🛡️ **Role**        | `admin`          | Administrátorská práva |
+
+---
+
+### 👤 Testovací uživatel – běžný uživatel
+
+| Položka            | Hodnota          | Popis              |
+|--------------------|------------------|--------------------|
+| 🧑 **Nickname**     | `test_user`      | Přihlašovací jméno |
+| 🔑 **Heslo**        | `testovaciData`  | Heslo účtu         |
+| 🛡️ **Role**        | `user`           | Běžný uživatel     |
+
 
 ---
 
@@ -107,7 +124,6 @@ Níže najdete testovací účet, který lze použít pro přihlášení do apli
 - ⭐ Hodnocení receptů
 - 💬 Komentáře k receptům
 - 🔔 Notifikace (nový komentář)
-- 🖼️ Úprava vizuálu a formátu výstupu
 - 🔍 Řazení a filtrování
 
 

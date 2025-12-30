@@ -44,6 +44,12 @@ LIMIT ?, ?
     $stmt->execute();
     $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // formát datumu
+    for ($r = 0; $r < count($recipes); $r++) {
+
+        $recipes[$r]["created_at"] = (new DateTime($recipes[$r]["created_at"]))->format("d. m. Y H:i");
+    }
+
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM recipes WHERE is_deleted = 0 AND is_private = 0");
     $stmt->execute();
     $count = $stmt->fetchColumn();
@@ -53,6 +59,8 @@ LIMIT ?, ?
         "message" => "Recepty odeslány.",
         "data" => $recipes,
         "count" => $count,
+        
+
     ]);
     exit;
 }

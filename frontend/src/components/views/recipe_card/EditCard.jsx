@@ -62,9 +62,10 @@ function EditCard(props) {
         }
 
         if (result.success) {
-          //console.log(result.ingredient);
+          
           setDetail(result.data);
           setIngredients(result.ingredient);
+         
         }
       } catch (error) {
         console.log("Při editu se něco pokazilo", error);
@@ -124,12 +125,16 @@ function EditCard(props) {
     const updateRow = ingredients.map((ingredient) => {
       const currentRowId = ingredient.id ?? ingredient.tempId;
       if (currentRowId == rowId) {
+        if(column == "amount_unit" && value == "podle chuti"){
+          return {...ingredient, ["amount_value"]: "", [column]: value};
+        }
         return { ...ingredient, [column]: value };
       }
       return ingredient;
     });
 
     setIngredients(updateRow);
+    
   };
 
   // 🟩 Funkce pro smazání ingredience
@@ -276,7 +281,8 @@ function EditCard(props) {
               <div className="mx-auto" style={{ maxWidth: "760px" }}>
                 {ingredients.map((ingredient) => {
                   const rowId = ingredient.id ?? ingredient.tempId;
-
+                  const isPodleChuti = ingredient.amount_unit == "podle chuti";
+  
                   return (
                     <div
                       className="row g-2 align-items-center mb-2"
@@ -292,6 +298,7 @@ function EditCard(props) {
                           data-id={rowId}
                           name="name"
                           onChange={handleIngredientEdit}
+                          
                         />
                       </div>
 
@@ -305,6 +312,7 @@ function EditCard(props) {
                           data-id={rowId}
                           name="amount_value"
                           onChange={handleIngredientEdit}
+                          disabled={isPodleChuti}
                         />
                       </div>
 
