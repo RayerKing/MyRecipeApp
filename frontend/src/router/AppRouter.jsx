@@ -51,6 +51,7 @@ export default function AppRouter(props) {
             profilePage={props.profilePage}
             setProfilePage={props.setProfilePage}
             currentUser={props.currentUser}
+            setFlashMessage={props.setFlashMessage}
           />
         }
       />

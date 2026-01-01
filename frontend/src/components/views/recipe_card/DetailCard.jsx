@@ -2,6 +2,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import Comments from "./Comments";
 
 // 🟩 Komponenta pro detail karty
 function DetailCard(props) {
@@ -125,7 +126,11 @@ function DetailCard(props) {
           <h5 className="text-start">Postup</h5>
           <p className="mb-0 text-start">{details.instructions}</p>
         </div>
+
+        <Comments recipe_id={id} currentUser={props.currentUser} setFlashMessage={props.setFlashMessage} />
       </div>
+
+      
     </section>
   );
 }
@@ -135,6 +140,7 @@ DetailCard.propTypes = {
   setLastPage: PropTypes.func,
   profilePage: PropTypes.string,
   currentUser: PropTypes.object,
+  setFlashMessage: PropTypes.func,
 };
 
 export default DetailCard;
