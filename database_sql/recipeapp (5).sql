@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 30. pro 2025, 21:38
+-- Vytvořeno: Pát 02. led 2026, 19:06
 -- Verze serveru: 10.4.32-MariaDB
 -- Verze PHP: 8.2.12
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Databáze: `recipeapp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT 'ID komentáře',
+  `user_id` int(10) UNSIGNED NOT NULL COMMENT 'ID uživatele',
+  `recipe_id` int(10) UNSIGNED NOT NULL COMMENT 'ID receptu',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Datum vytvoření',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Aktualizace komentáře',
+  `comment_body` text NOT NULL COMMENT 'Vložený text komentáře'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci COMMENT='Tabulka pro komentáře k receptům';
+
+--
+-- Vypisuji data pro tabulku `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `recipe_id`, `created_at`, `updated_at`, `comment_body`) VALUES
+(4, 9, 105, '2026-01-02 15:43:11', '2026-01-02 15:43:11', 'Moc dobré'),
+(6, 9, 105, '2026-01-02 15:43:41', '2026-01-02 17:57:33', 'úžasné jídlo, nejlepší, báječé');
 
 -- --------------------------------------------------------
 
@@ -105,7 +128,7 @@ CREATE TABLE `recipes` (
 --
 
 INSERT INTO `recipes` (`id`, `user_id`, `title`, `description`, `created_at`, `instructions`, `is_private`, `is_deleted`) VALUES
-(95, 9, 'Kuřecí na paprice', 'Klasické české jídlo s jemnou paprikovou omáčkou.', '2025-12-21 21:10:26', 'Na oleji orestuj cibuli, přidej kuřecí maso, zapraš paprikou, podlij vodou a dust do měkka. Přidej smetanu a krátce povař.', 0, 0),
+(95, 9, 'Kuřecí na paprice', 'Klasické české jídlo s jemnou paprikovou omáčkou.', '2025-12-21 21:10:26', 'Na oleji orestuj cibuli, přidej kuřecí maso, zapraš paprikou, podlij vodou a dust do měkka. Přidej smetanu a krátce povař.', 0, 1),
 (96, 9, 'Špagety carbonara', 'Rychlé italské těstoviny bez smetany.', '2025-12-21 21:11:25', 'Uvař špagety. Na pánvi opeč slaninu, přidej těstoviny a zalij směsí vajec a sýra.', 1, 0),
 (97, 9, 'Rajská omáčka s masovými koulemi', 'Sladkokyselá omáčka oblíbená u dětí.', '2025-12-21 21:12:48', 'Uvař rajskou omáčku z protlaku, vytvoř koule z masa a povař je v omáčce.', 0, 0),
 (98, 9, 'Hovězí guláš', 'Poctivý hospodský guláš.', '2025-12-21 21:13:34', 'Na sádle orestuj cibuli, přidej maso, papriku a dust do měkka.', 0, 0),
@@ -152,6 +175,14 @@ INSERT INTO `users` (`id`, `email`, `password_hash`, `nickname`, `firstName`, `l
 --
 
 --
+-- Indexy pro tabulku `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_comments_user_id` (`user_id`),
+  ADD KEY `fk_comments_recipe_id` (`recipe_id`);
+
+--
 -- Indexy pro tabulku `ingredients`
 --
 ALTER TABLE `ingredients`
@@ -178,6 +209,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT pro tabulku `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID komentáře', AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT pro tabulku `ingredients`
 --
 ALTER TABLE `ingredients`
@@ -198,6 +235,13 @@ ALTER TABLE `users`
 --
 -- Omezení pro exportované tabulky
 --
+
+--
+-- Omezení pro tabulku `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `fk_comments_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_comments_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Omezení pro tabulku `ingredients`

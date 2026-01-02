@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faPenToSquare,
+  faTrashCan,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
 // 🟩 Komponenta pro komentáře
 
@@ -11,6 +16,10 @@ function Comments(props) {
   const [comments, setComments] = useState([]);
 
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [editingCommentId, setEditingCommentId] = useState(null);
+
+  const [editingText, setEditingText] = useState("");
 
   useEffect(() => {
     // 🟧 API volání pro získání komentářů
@@ -43,7 +52,7 @@ function Comments(props) {
     readComments();
   }, [recipe_id]);
 
-  async function handleDelete(id) {
+  async function handleDeleteComment(id) {
     try {
       const request = await fetch(
         "http://localhost/projekty/MyRecipeApp/backend/handle_card/comments/delete_comment.php",
@@ -81,6 +90,71 @@ function Comments(props) {
     }
   }
 
+  // 🟩 funkce pro zahájení editu komentáře
+  const handleEditComment = (id, text) => {
+    setEditingCommentId(id);
+    setEditingText(text);
+  };
+
+  // 🟩 Zrušení změny komentáře
+  const handleCancelEdit = () => {
+    setEditingCommentId(null);
+    setEditingText("");
+  };
+
+  // 🟧 Uložení změn
+  async function handleSaveEditComment(id) {
+    const data = {
+      comment_id: id,
+      comment_text: editingText,
+    };
+
+    try {
+      const request = await fetch(
+        "http://localhost/projekty/MyRecipeApp/backend/handle_card/comments/edit_comment.php",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result = await request.json();
+
+      if (!result.success) {
+        props.setFlashMessage({ message: result.message, type: "delete" });
+
+        setTimeout(() => {
+          props.setFlashMessage(null);
+        }, 2000);
+        return;
+      }
+
+      if (result.success) {
+        setComments((prev) =>
+          prev.map((comment) => {
+            if (comment.id === id) {
+              return {
+                ...comment,
+                comment_body: editingText.trim(),
+              };
+            } else {
+              return comment;
+            }
+          })
+        );
+
+        setEditingCommentId(null);
+        setEditingText("");
+      }
+    } catch (err) {
+      console.log("Při změně komentáře se něco nepovedlo", err);
+    }
+  }
+
   return (
     <div className="mt-5 pt-2">
       {/* 🟩 Komentáře */}
@@ -98,51 +172,98 @@ function Comments(props) {
           </div>
         ) : (
           <div className="list-group list-group-flush">
-            {comments.map((comment) => (
-              <div
-                key={comment.id}
-                className="list-group-item px-0 py-4 border-bottom"
-              >
-                {/* 🟩 Autor komentáře */}
-                <div className="d-flex justify-content-between align-items-center bg-light border rounded px-3 py-2 mb-2">
-                  <span className="fw-semibold text-dark">
-                    {comment.author}
-                  </span>
-                  {/* 🟩 Datum vytvoření */}
-                  <div className="d-flex align-items-center gap-3">
-                    <small className="text-muted fst-italic">
-                      {comment.created_at}
-                    </small>
-                    {/* 🟦 Buttons */}
-                    {/* 🟩 Edit */}
-                    {(props.currentUser?.id == comment.user_id ||
-                      props.currentUser?.role == "admin") && (
-                      <button
-                        className="btn btn-sm btn-link text-muted p-0"
-                        title="Upravit komentář"
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </button>
-                    )}
+            {comments.map((comment) => {
+              const rights =
+                props.currentUser?.id == comment.user_id ||
+                props.currentUser?.role == "admin";
 
-                    {/* 🟩 Delete */}
-                    {(props.currentUser?.id == comment.user_id ||
-                      props.currentUser?.role == "admin") && (
-                      <button
-                        className="btn btn-sm btn-link text-muted p-0"
-                        title="Smazat komentář"
-                        onClick={() => handleDelete(comment.id)}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </button>
-                    )}
+              const isEditing = comment.id === editingCommentId;
+
+              const oldText = comment.comment_body.trim();
+              const newText = editingText.trim();
+              const disabled =
+                isEditing && (newText.length === 0 || newText === oldText);
+
+              return (
+                <div
+                  key={comment.id}
+                  className="list-group-item px-0 py-4 border-bottom"
+                >
+                  {/* 🟩 Autor komentáře */}
+                  <div className="d-flex justify-content-between align-items-center bg-light border rounded px-3 py-2 mb-2">
+                    <span className="fw-semibold text-dark">
+                      {comment.author}
+                    </span>
+                    {/* 🟩 Datum vytvoření */}
+                    <div className="d-flex align-items-center gap-3">
+                      <small className="text-muted fst-italic">
+                        {comment.created_at}
+                      </small>
+                      {/* 🟦 Buttons */}
+                      {/* 🟩 Edit */}
+                      {rights && !isEditing && (
+                        <button
+                          className="btn btn-sm btn-link text-muted p-0"
+                          title="Upravit komentář"
+                          onClick={() =>
+                            handleEditComment(comment.id, comment.comment_body)
+                          }
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </button>
+                      )}
+
+                      {/* 🟩 Delete */}
+                      {rights && !isEditing && (
+                        <button
+                          className="btn btn-sm btn-link text-muted p-0"
+                          title="Smazat komentář"
+                          onClick={() => handleDeleteComment(comment.id)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </button>
+                      )}
+
+                      {rights && isEditing && (
+                        <button
+                          className="btn btn-sm btn-link text-muted p-0"
+                          title="Zrušit změny"
+                          onClick={handleCancelEdit}
+                        >
+                          <FontAwesomeIcon icon={faXmark} /> Zrušit
+                        </button>
+                      )}
+
+                      {rights && isEditing && (
+                        <button
+                          className="btn btn-sm btn-link text-muted p-0"
+                          title="Uložit změny"
+                          onClick={() => handleSaveEditComment(comment.id)}
+                          disabled={disabled}
+                        >
+                          <FontAwesomeIcon icon={faCheck} /> Uložit
+                        </button>
+                      )}
+                    </div>
                   </div>
+                  {/* 🟩 Tělo komentáře */}
+                  {comment.id === editingCommentId ? (
+                    <div className="text-body ps-1">
+                      <textarea
+                        className="form-control w-100"
+                        name="editComment"
+                        rows={3}
+                        id={comment.id}
+                        value={editingText}
+                        onChange={(e) => setEditingText(e.target.value)}
+                      ></textarea>
+                    </div>
+                  ) : (
+                    <div className="text-body ps-1">{comment.comment_body}</div>
+                  )}
                 </div>
-
-                {/* 🟩 Tělo komentáře */}
-                <div className="text-body ps-1">{comment.comment_body}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

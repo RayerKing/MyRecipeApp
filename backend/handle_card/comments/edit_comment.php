@@ -1,6 +1,6 @@
 <?php
 
-// 🟩 API pro smazání komentáře
+// 🟩 API pro úpravu komentáře
 
 include "../../config/database.php";
 
@@ -18,20 +18,33 @@ header("Content-Type: application/json");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $id = json_decode(file_get_contents("php://input"), true);
+    $data = json_decode(file_get_contents("php://input"), true);
 
-    if(empty($_SESSION["id"])){
+    $text = trim($data["comment_text"]);
+    $id = $data["comment_id"];
+
+    if (!isset($_SESSION["id"])) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Uživatel není přihlášen."
+    ]);
+    exit;
+}
+
+    
+
+    if(strlen($text) <= 0){
         echo json_encode([
-            "message" => "Uživatel není přihlášen.",
             "success" => false,
+            "message" => "Text je prázdný."
         ]);
         exit;
     }
 
-    if (!isset($id)) {
+    if(!is_int($id)){
         echo json_encode([
-            "message" => "Chybí ID komentáře.",
             "success" => false,
+            "message" => "ID komentáře musí být číslo."
         ]);
         exit;
     }
@@ -45,14 +58,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $stmt = $pdo -> prepare("SELECT user_id FROM comments WHERE id = ? LIMIT 1");
+    $stmt = $pdo -> prepare("SELECT user_id, id FROM comments WHERE id = ? LIMIT 1");
     $stmt -> execute([$id]);
-    $author = $stmt->fetch();
+    $author = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if(!$author){
         echo json_encode([
             "success" => false,
-            "message" => "Autor nenalezen."
+            "message" => "Komentář nenalezen."
         ]);
         exit;
     }
@@ -65,25 +78,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $stmt = $pdo -> prepare("DELETE FROM comments WHERE id = ?");
-    $stmt -> execute([$id]);
-    $row = $stmt->rowCount();
+    $stmt = $pdo -> prepare("UPDATE comments SET comment_body = ? WHERE id = ?");
+    $stmt->execute([$text, $id]);
 
-    if($row == 0){
         echo json_encode([
-            "success" => false,
-            "message" => "Komentář se nepodařilo odstranit."
-        ]);
-        exit;
-    }
-
-    echo json_encode([
         "success" => true,
-        "message" => "Komentář byl úspěšně odstraněn."
+        "message" => "Komentář byl úspěšně upraven."
     ]);
     exit;
+
 }
-
-
 
 ?>
