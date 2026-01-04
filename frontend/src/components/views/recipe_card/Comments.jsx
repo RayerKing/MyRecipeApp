@@ -6,6 +6,7 @@ import {
   faPenToSquare,
   faTrashCan,
   faXmark,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 // 🟩 Komponenta pro komentáře
@@ -97,13 +98,112 @@ function Comments(props) {
   };
 
   // 🟩 Zrušení změny komentáře
-  const handleCancelEdit = () => {
+  const handleCancelEdit = (comment) => {
+    if (comment.isNew) {
+      console.log("Komentář je nový, mažu");
+      setComments((prev) => prev.filter((c) => c.id !== comment.id));
+    }
     setEditingCommentId(null);
     setEditingText("");
   };
 
+  // 🟩 Přidání komentáře
+  const handleAddComment = () => {
+    if (comments.some((c) => c.isNew)) {
+      props.setFlashMessage({
+        message: "Již máte otevřený komentář.",
+        type: "delete",
+      });
+
+      setTimeout(() => {
+        props.setFlashMessage(null);
+      }, 2000);
+      return;
+    }
+
+    const tempId = crypto.randomUUID();
+
+    setComments((prev) => [
+      {
+        id: tempId,
+        comment_body: "",
+        user_id: props.currentUser.id,
+        author: props.currentUser.nickname,
+        isNew: true,
+      },
+      ...prev,
+    ]);
+
+    setEditingCommentId(tempId);
+    setEditingText("");
+  };
+
+  // 🟧 Funkce pro uložení nového komentáře do databáze
+  async function handleSaveNewComment(comment) {
+    console.log(comment);
+    const data = { text: editingText, recipe_id };
+    try {
+      const request = await fetch(
+        "http://localhost/projekty/MyRecipeApp/backend/handle_card/comments/add_comment.php",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result = await request.json();
+
+      if (!result.success) {
+        setComments((prev) => prev.filter((c) => c.id !== comment.id));
+
+        setEditingText("");
+        setEditingCommentId(null);
+        props.setFlashMessage({ message: result.message, type: "delete" });
+
+        setTimeout(() => {
+          props.setFlashMessage(null);
+        }, 2000);
+        return;
+      }
+
+      if (result.success) {
+        setComments((prev) =>
+          prev.map((c) => {
+            if (c.id === comment.id) {
+              return {
+                ...c,
+                id: result.data.id,
+                comment_body: editingText,
+                isNew: false,
+                created_at: result.data.created_at,
+              };
+            } else {
+              return c;
+            }
+          })
+        );
+
+        setEditingCommentId(null);
+        setEditingText("");
+      }
+    } catch (err) {
+      console.log("Něco se nepovedlo při přidání komentáře.", err);
+    }
+  }
+
   // 🟧 Uložení změn
-  async function handleSaveEditComment(id) {
+  async function handleSaveEditComment(comment) {
+    if (comment.isNew) {
+      handleSaveNewComment(comment);
+      return;
+    }
+
+    const id = comment.id;
+
     const data = {
       comment_id: id,
       comment_text: editingText,
@@ -161,7 +261,21 @@ function Comments(props) {
       <div className="border rounded shadow-sm bg-white p-4">
         <div className="d-flex align-items-center justify-content-between mb-2">
           <h4 className="mb-0">Komentáře</h4>
-          <span className="badge text-bg-secondary">{comments.length}</span>
+          <div className="d-flex align-items-center gap-2">
+            {props.currentUser?.nickname && (
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-primary"
+                onClick={handleAddComment}
+              >
+                <FontAwesomeIcon icon={faPlus} /> Přidat komentář
+              </button>
+            )}
+
+            <span className="badge rounded-pill text-bg-secondary">
+              {comments.length}
+            </span>
+          </div>
         </div>
         {errorMessage && (
           <div className="alert alert-light border mb-0">{errorMessage}</div>
@@ -174,6 +288,7 @@ function Comments(props) {
           <div className="list-group list-group-flush">
             {comments.map((comment) => {
               const rights =
+                comment.isNew ||
                 props.currentUser?.id == comment.user_id ||
                 props.currentUser?.role == "admin";
 
@@ -228,7 +343,7 @@ function Comments(props) {
                         <button
                           className="btn btn-sm btn-link text-muted p-0"
                           title="Zrušit změny"
-                          onClick={handleCancelEdit}
+                          onClick={() => handleCancelEdit(comment)}
                         >
                           <FontAwesomeIcon icon={faXmark} /> Zrušit
                         </button>
@@ -238,7 +353,7 @@ function Comments(props) {
                         <button
                           className="btn btn-sm btn-link text-muted p-0"
                           title="Uložit změny"
-                          onClick={() => handleSaveEditComment(comment.id)}
+                          onClick={() => handleSaveEditComment(comment)}
                           disabled={disabled}
                         >
                           <FontAwesomeIcon icon={faCheck} /> Uložit

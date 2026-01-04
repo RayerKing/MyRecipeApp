@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode(file_get_contents("php://input"), true);
 
     $text = trim($data["comment_text"]);
-    $id = $data["comment_id"];
+    $id = (int)$data["comment_id"];
 
     if (!isset($_SESSION["id"])) {
     echo json_encode([
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if(!is_int($id)){
         echo json_encode([
             "success" => false,
-            "message" => "ID komentáře musí být číslo."
+            "message" => $id
         ]);
         exit;
     }

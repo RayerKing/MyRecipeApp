@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 02. led 2026, 19:06
+-- Vytvořeno: Ned 04. led 2026, 16:30
 -- Verze serveru: 10.4.32-MariaDB
 -- Verze PHP: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`id`, `user_id`, `recipe_id`, `created_at`, `updated_at`, `comment_body`) VALUES
 (4, 9, 105, '2026-01-02 15:43:11', '2026-01-02 15:43:11', 'Moc dobré'),
-(6, 9, 105, '2026-01-02 15:43:41', '2026-01-02 17:57:33', 'úžasné jídlo, nejlepší, báječé');
+(6, 9, 105, '2026-01-02 15:43:41', '2026-01-04 14:59:50', 'úžasné jídlo, nejlepší, báječné jídlo! 😊');
 
 -- --------------------------------------------------------
 
@@ -212,7 +212,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pro tabulku `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID komentáře', AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID komentáře', AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pro tabulku `ingredients`

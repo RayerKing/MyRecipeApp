@@ -3,7 +3,8 @@
 
 MyRecipeApp je moderní webová aplikace pro správu receptů.  
 Umožňuje registraci uživatelů, přihlášení, správu profilu, vytváření, úpravu a smazání receptů.
-Admin má právo upravovat a mazat veškeré recepty nezávisle na autorovi.
+Každý uživatel má možnost přidat, upravovat a mazat své komentáře u receptů.
+Admin má právo upravovat a mazat veškeré recepty i komentáře nezávisle na autorovi.
 
 ---
 
@@ -46,6 +47,7 @@ Tabulky:
 - 🧑 `users`
 - 🍽️ `recipes`
 - 🍕 `ingredients`
+- 💬 `comments`
 
 ---
 
@@ -122,7 +124,7 @@ Níže najdete testovací účty, které lze použít pro přihlášení do apli
 ## 🚀 Plány s projektem
 
 - ⭐ Hodnocení receptů
-- 💬 Komentáře k receptům
+- 💬 Komentáře k receptům ✔️
 - 🔔 Notifikace (nový komentář)
 - 🔍 Řazení a filtrování
 
